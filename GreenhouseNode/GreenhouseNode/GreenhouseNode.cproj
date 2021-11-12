@@ -144,6 +144,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="driver\ihal.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="LoRaWANHandler.c">
       <SubType>compile</SubType>
     </Compile>
@@ -288,7 +291,31 @@
     <Compile Include="lib\stdio_driver.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="LoRaWAN_handler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="LoRaWAN_handler.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="semaphore_handler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="semaphore_handler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="task_handler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="task_handler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="timer_handler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="timer_handler.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
@@ -309,7 +336,7 @@
     <None Include="driver\libIotLibrary.a">
       <SubType>compile</SubType>
     </None>
-    <None Include="driver\libstdioLib.a">
+    <None Include="driver\libserialLib.a">
       <SubType>compile</SubType>
     </None>
     <None Include="driver\LICENSE.md">

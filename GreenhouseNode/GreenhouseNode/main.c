@@ -8,6 +8,7 @@
  */ 
 
 #include <avr/io.h>
+#include <stdio.h>
 #include <avr/sfr_defs.h>
 
 #include <ATMEGA_FreeRTOS.h>
@@ -22,6 +23,10 @@
 #include <status_leds.h>
 
 #include "../FreeRTOSTraceDriver/FreeRTOSTraceDriver.h"
+
+// define two Tasks
+void task1( void *pvParameters );
+void task2( void *pvParameters );
 
 // define semaphore handle
 SemaphoreHandle_t xTestSemaphore;
@@ -45,20 +50,20 @@ void create_tasks_and_semaphores(void)
 	}
 
 	xTaskCreate(
-	task1
-	,  "Task1"  // A name just for humans
-	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
-	,  NULL
-	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-	,  NULL );
+		task1
+		,  "Task1"  // A name just for humans
+		,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
+		,  NULL
+		,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+		,  NULL );
 
 	xTaskCreate(
-	task2
-	,  "Task2"  // A name just for humans
-	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
-	,  NULL
-	,  1  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-	,  NULL );
+		task2
+		,  "Task2"  // A name just for humans
+		,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
+		,  NULL
+		,  1  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+		,  NULL );
 
 }
 
@@ -131,5 +136,6 @@ int main(void)
 	while (1)
 	{
 	}
+	
 }
 

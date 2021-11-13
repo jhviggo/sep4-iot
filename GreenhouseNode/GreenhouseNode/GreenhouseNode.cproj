@@ -336,9 +336,6 @@
     <None Include="driver\libIotLibrary.a">
       <SubType>compile</SubType>
     </None>
-    <None Include="driver\libserialLib.a">
-      <SubType>compile</SubType>
-    </None>
     <None Include="driver\LICENSE.md">
       <SubType>compile</SubType>
     </None>
@@ -348,16 +345,7 @@
     <None Include="driver\README.md">
       <SubType>compile</SubType>
     </None>
-    <None Include="FreeRTOS\.git">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="FreeRTOS\.gitignore">
-      <SubType>compile</SubType>
-    </None>
     <None Include="FreeRTOS\readme.md">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="FreeRTOS\src\.gitignore">
       <SubType>compile</SubType>
     </None>
     <None Include="FreeRTOS\src\history.txt">

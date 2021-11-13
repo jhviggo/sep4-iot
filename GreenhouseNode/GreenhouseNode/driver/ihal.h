@@ -1,9 +1,9 @@
-*
-* hal.h
-*
-* Created: 17/10/2018 11:35:58
-*  Author: IHA
-*/
+/*
+ * hal.h
+ *
+ * Created: 17/10/2018 11:35:58
+ *  Author: IHA
+ */
 
 
 #ifndef HAL_H_

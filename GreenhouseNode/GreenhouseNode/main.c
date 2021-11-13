@@ -94,7 +94,7 @@ void lora_tx( void *pvParameters )
 		PORTA ^= _BV(PA0);	// Pin D22
 	}
 }
-*/
+
 
 /*-----------------------------------------------------------*/
 void lora_rx( void *pvParameters )

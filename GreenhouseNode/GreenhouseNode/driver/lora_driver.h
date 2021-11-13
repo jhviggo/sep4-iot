@@ -627,7 +627,7 @@ lora_driver_initialise(ser_USART1, NULL); // The parameter is the USART port the
 MessageBufferHandle_t downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2); // Here I make room for two downlink messages in the message buffer
 lora_driver_initialise(ser_USART1, downLinkMessageBufferHandle); // The parameter is the USART port the RN2483 module is connected to - in this case USART1 - here no message buffer for down-link messages are defined
 \endcode
-
+ 
 Then the LoRaWAN transceiver needs to be hardware reset.
 \note This must be done from a FreeRTOS task!!
 \code

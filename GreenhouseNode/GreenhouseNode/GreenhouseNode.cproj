@@ -144,12 +144,6 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="driver\ihal.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="LoRaWANHandler.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="driver\display_7seg.h">
       <SubType>compile</SubType>
     </Compile>
@@ -291,10 +285,10 @@
     <Compile Include="lib\stdio_driver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="LoRaWAN_handler.c">
+    <Compile Include="LoRaWAN.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="LoRaWAN_handler.h">
+    <Compile Include="LoRaWAN.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">

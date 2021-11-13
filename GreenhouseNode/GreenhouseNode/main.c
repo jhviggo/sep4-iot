@@ -12,14 +12,16 @@
 
 #include <ATMEGA_FreeRTOS.h>
 #include <semphr.h>
-
-#include "semaphore_handler.h"
-#include "timer_handler.h"
-#include "task_handler.h"
-#include "LoRaWAN_Task.h"
-
+#include "LoRaWAN.h"
 
 #include "../FreeRTOSTraceDriver/FreeRTOSTraceDriver.h"
+
+#define LoRaWAN_TASK_PRIORITY 6
+#define LoRaWAN_TASK_RX_PRIORITY 1
+
+// define two Tasks
+void lora_tx( void *pvParameters );
+void lora_rx( void *pvParameters );
 
 // define two Tasks
 void task1( void *pvParameters );
@@ -47,49 +49,55 @@ void create_tasks_and_semaphores(void)
 	}
 
 	xTaskCreate(
-	task1
-	,  "Task1"  // A name just for humans
-	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
-	,  NULL
-	,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-	,  NULL );
+		lora_tx
+		,  "LoRaWAN_Send_Task"  // A name just for humans
+		,  configMINIMAL_STACK_SIZE + 200 // This stack size can be checked & adjusted by reading the Stack Highwater
+		,  NULL
+		,  LoRaWAN_TASK_PRIORITY  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+		,  NULL );
 
 	xTaskCreate(
-	task2
-	,  "Task2"  // A name just for humans
-	,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
-	,  NULL
-	,  1  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-	,  NULL );
+		lora_rx
+		,  "LoRaWAN_Recive_Task"  // A name just for humans
+		,  configMINIMAL_STACK_SIZE  // This stack size can be checked & adjusted by reading the Stack Highwater
+		,  NULL
+		,  LoRaWAN_TASK_RX_PRIORITY  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+		,  NULL );
 
 }
 */
 
 /*-----------------------------------------------------------*/
-
-/*
-void task1( void *pvParameters )
+void lora_tx( void *pvParameters )
 {
 	#if (configUSE_APPLICATION_TASK_TAG == 1)
 	// Set task no to be used for tracing with R2R-Network
 	vTaskSetApplicationTaskTag( NULL, ( void * ) 1 );
 	#endif
 
+
+
+	LoRaWAN_connect();
 	for(;;)
 	{
-		//xSemaphoreTake(xTestSemaphore,portMAX_DELAY);
-		vTaskDelay(10);
-		//xSemaphoreGive(xTestSemaphore);
+		/*
+		size_t xBytesSent;
+		char* pcStringToSend = "65535";
 
-		PORTA ^= _BV(PA0);
+		xBytesSent = xMessageBufferSend(xMessageBuffer,
+		(void*)pcStringToSend, //object to be send
+		strlen(pcStringToSend), //size of object
+		portMAX_DELAY); //block forever
+		*/
+		LoRaWAN_send();
+
+		PORTA ^= _BV(PA0);	// Pin D22
 	}
 }
 */
 
 /*-----------------------------------------------------------*/
-
-/*
-void task2( void *pvParameters )
+void lora_rx( void *pvParameters )
 {
 	#if (configUSE_APPLICATION_TASK_TAG == 1)
 	// Set task no to be used for tracing with R2R-Network
@@ -98,47 +106,32 @@ void task2( void *pvParameters )
 
 	for(;;)
 	{
+		LoRaWAN_downlink();
 		vTaskDelay(50);
-		PORTA ^= _BV(PA7);
+		PORTA ^= _BV(PA7);	// Pin D29
 	}
 }
 
-*/
-
-/*-----------------------------------------------------------*/
-
-void init()
-{
+void init() {
 	DDRA |= _BV(DDA0) | _BV(DDA7);
 	trace_init();
-
-	// param[in] usartNo no of the USART to setup and connect to stdin and stdout [0..3].
-	//note This function must be called before using printf(), scanf etc.
-	//note Remember to enable global interrupt by calling sei() after the driver is initialised.
-	void stdio_initialise(0);
 }
 
 /*-----------------------------------------------------------*/
 
 int main(void)
 {
-	init();
 
-	semaphores_init();
-	timers_init();
-	lora_init();
+	create_tasks_and_semaphores();
+	LoRaWAN_init();
+
 
 	/* Add application code */
 
-	xSemaphoreTake( loraSemaphore, portMAX_DELAY );
 
-	// tasks
-	create_tasks();
 
-	// initialize and run the freeRTOS scheduler.
-	vTaskStartScheduler();
 
-	// we never should reach here
-	while (1){}
+	vTaskStartScheduler(); //initialize and run the freeRTOS scheduler. Execution should never return here.
 
+	while (1) {} // we never should reach here
 }

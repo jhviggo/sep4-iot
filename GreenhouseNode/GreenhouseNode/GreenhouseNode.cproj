@@ -294,24 +294,6 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="semaphore_handler.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="semaphore_handler.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="task_handler.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="task_handler.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="timer_handler.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="timer_handler.h">
-      <SubType>compile</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="driver\" />

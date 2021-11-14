@@ -15,13 +15,13 @@
  *EUI Dev#2:0004A30B00251192
  */
 
+#ifndef LORAWAN_H_
+#define LORAWAN_H_
+
 #include "ATMEGA_FreeRTOS.h"
 
 #include <stdio.h>
 #include <stdint.h>
-
-#ifndef LORAWAN_H_
-#define LORAWAN_H_
 
 // Parameters for OTAA join (Over The Air Activation)
 #define LORA_devEUI "0004A30B00259D2C"		//Dev#1			<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<	Set right LoRa device

@@ -6,19 +6,16 @@
  */ 
 
 #include "LoRaWAN.h"
-#include <lora_driver.h>
 #include <lora_driver_utils.h>
+#include <lora_driver.h>
 #include <stdint.h>
 #include <message_buffer.h>
 
-#define BUFFERSIZE 100
-
 // Down link messages in the message buffer
-MessageBufferHandle_t downLinkMessageBufferHandle = xMessageBufferCreate( BUFFERSIZE );
+MessageBufferHandle_t downLinkMessageBufferHandle;
 
 // Define a payload struct variable (in lora_driver.h)
-lora_driver_payload_t uplinkPayload;
-lora_driver_payload_t downlinkPayload;
+lora_driver_payload_t uplinkPayload ,downlinkPayload;
 	
 void LoRaWAN_init()
 {
@@ -29,13 +26,15 @@ void LoRaWAN_init()
 // Create dummy packet
 void LoRaWAN_hum_temp_packet() 
 {
+	downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t));
+
 	//SETUP the packet/message, change for each message type
 	uplinkPayload.portNo = 1; // The LoRaWAN port no to sent the message to
 	uplinkPayload.len = 4;		// Length of the actual payload
 	
-	// Dummy values
-	float humidity = 25.456;
-	float temperature = 13.95;
+	// Dummy values (We gets values as float)
+	//float humidity = 25.456;
+	//float temperature = 13.95;
 	int16_t hum_payload = 242;
 	int16_t temp_payload = 153;
 	

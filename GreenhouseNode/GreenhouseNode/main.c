@@ -8,10 +8,10 @@
  */
 
 #include <avr/io.h>
-#include <avr/sfr_defs.h>
 
 #include <ATMEGA_FreeRTOS.h>
 #include <semphr.h>
+
 #include "LoRaWAN.h"
 
 #include "../FreeRTOSTraceDriver/FreeRTOSTraceDriver.h"
@@ -23,17 +23,12 @@
 void lora_tx( void *pvParameters );
 void lora_rx( void *pvParameters );
 
-// define two Tasks
-void task1( void *pvParameters );
-void task2( void *pvParameters );
-
 // define semaphore handle
 SemaphoreHandle_t xTestSemaphore;
 
-
 /*-----------------------------------------------------------*/
 
-/*
+
 void create_tasks_and_semaphores(void)
 {
 	// Semaphores are useful to stop a Task proceeding, where it should be paused to wait,
@@ -65,7 +60,7 @@ void create_tasks_and_semaphores(void)
 		,  NULL );
 
 }
-*/
+
 
 /*-----------------------------------------------------------*/
 void lora_tx( void *pvParameters )
@@ -75,26 +70,23 @@ void lora_tx( void *pvParameters )
 	vTaskSetApplicationTaskTag( NULL, ( void * ) 1 );
 	#endif
 
-
-
 	LoRaWAN_connect();
 	for(;;)
 	{
-		/*
+		
 		size_t xBytesSent;
 		char* pcStringToSend = "65535";
-
+/*
 		xBytesSent = xMessageBufferSend(xMessageBuffer,
 		(void*)pcStringToSend, //object to be send
 		strlen(pcStringToSend), //size of object
 		portMAX_DELAY); //block forever
-		*/
+	*/	
 		LoRaWAN_send();
 
 		PORTA ^= _BV(PA0);	// Pin D22
 	}
 }
-
 
 /*-----------------------------------------------------------*/
 void lora_rx( void *pvParameters )
@@ -121,15 +113,11 @@ void init() {
 
 int main(void)
 {
-
+	init();
 	create_tasks_and_semaphores();
 	LoRaWAN_init();
 
-
 	/* Add application code */
-
-
-
 
 	vTaskStartScheduler(); //initialize and run the freeRTOS scheduler. Execution should never return here.
 

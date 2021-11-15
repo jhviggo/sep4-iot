@@ -12,9 +12,9 @@
 #include <ATMEGA_FreeRTOS.h>
 #include <semphr.h>
 
-#include "LoRaWAN.h"
-
 #include "../FreeRTOSTraceDriver/FreeRTOSTraceDriver.h"
+
+#include "../tasks/LoRaWAN.h"
 
 #define LoRaWAN_TASK_PRIORITY 6
 #define LoRaWAN_TASK_RX_PRIORITY 1
@@ -73,10 +73,10 @@ void lora_tx( void *pvParameters )
 	LoRaWAN_connect();
 	for(;;)
 	{
-		
+	/*	
 		size_t xBytesSent;
 		char* pcStringToSend = "65535";
-/*
+
 		xBytesSent = xMessageBufferSend(xMessageBuffer,
 		(void*)pcStringToSend, //object to be send
 		strlen(pcStringToSend), //size of object
@@ -105,8 +105,10 @@ void lora_rx( void *pvParameters )
 }
 
 void init() {
+
 	DDRA |= _BV(DDA0) | _BV(DDA7);
 	trace_init();
+	
 }
 
 /*-----------------------------------------------------------*/

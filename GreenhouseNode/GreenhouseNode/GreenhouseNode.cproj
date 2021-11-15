@@ -285,13 +285,13 @@
     <Compile Include="lib\stdio_driver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="LoRaWAN.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="LoRaWAN.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks\LoRaWAN.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks\LoRaWAN.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
@@ -301,6 +301,7 @@
     <Folder Include="FreeRTOS\FreeRTOSTraceDriver\" />
     <Folder Include="FreeRTOS\src\" />
     <Folder Include="lib\" />
+    <Folder Include="tasks" />
   </ItemGroup>
   <ItemGroup>
     <None Include="driver\DATASHEETS.md">

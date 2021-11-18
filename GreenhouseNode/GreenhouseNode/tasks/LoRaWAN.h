@@ -22,6 +22,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
+//#include "../driver/lora_driver.h"
 
 // Parameters for OTAA join (Over The Air Activation)
 #define LORA_devEUI "0004A30B00259D2C"		//Dev#1			<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<	Set right LoRa device

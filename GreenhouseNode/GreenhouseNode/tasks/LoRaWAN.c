@@ -131,5 +131,5 @@ void LoRaWAN_send(/* int8_t packetType */)
 {
 	LoRaWAN_hum_temp_packet();	// later select packet type
 	LoRaWAN_uplink();
-	lora_driver_sleep(300000);	// sleep time = 300000ms = 5 minuets
+	lora_driver_sleep(300000); // sleep time = 300000ms = 5 minuets
 }

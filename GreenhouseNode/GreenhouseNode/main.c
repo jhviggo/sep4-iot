@@ -28,6 +28,7 @@ SemaphoreHandle_t xTestSemaphore;
 
 /*-----------------------------------------------------------*/
 
+//TODO Add timers to handle delay and sleep time of LoRa module
 
 void create_tasks_and_semaphores(void)
 {

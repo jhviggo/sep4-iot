@@ -133,7 +133,6 @@
     <ListValues>
       <Value>libm</Value>
       <Value>libIotLibrary</Value>
-      <Value>libserialLib</Value>
     </ListValues>
   </avrgcc.linker.libraries.Libraries>
   <avrgcc.linker.libraries.LibrarySearchPaths>

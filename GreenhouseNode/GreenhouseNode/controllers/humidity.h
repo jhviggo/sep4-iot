@@ -5,15 +5,13 @@
  *  Author: tolde
  */ 
 
-#include <stdio.h>
-#include <time.h>
-#include <stddef.h>
-#ifndef HUMIDITY_H_
+#pragma once
 #define HUMIDITY_H_
 
 void humidity_create(void);
 void humidity_measure(void);
 uint8_t humidity_getHumidity(void);
+typedef struct humiditySensor* humiditySensor_t;
 
 
 

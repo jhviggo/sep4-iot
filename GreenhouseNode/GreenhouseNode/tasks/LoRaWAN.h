@@ -25,8 +25,8 @@
 //#include "../driver/lora_driver.h"
 
 // Parameters for OTAA join (Over The Air Activation)
-// #define LORA_devEUI "0004A30B00259D2C"		//Dev#1			<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<	Set right LoRa device	// Viggo
-#define LORA_devEUI "0004A30B00251192"			//Dev#2			<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<	Set right LoRa device	// Florina
+//#define LORA_devEUI "0004A30B00259D2C"		//Dev#1			<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<	Set right LoRa device - Viggo
+#define LORA_devEUI "0004A30B00251192"	//Dev#2			<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<	Set right LoRa device - Florina
 #define LORA_appEUI "2BBE8F09765BBF4B"
 #define LORA_appKEY "5F83717BC67B4646E3F00DC5EC3417DC"
 

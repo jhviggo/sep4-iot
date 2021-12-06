@@ -315,6 +315,12 @@
     <Compile Include="tasks\LoRaWAN.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="tasks\timer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks\timer.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="driver\" />

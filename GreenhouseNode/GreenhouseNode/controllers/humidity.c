@@ -7,20 +7,29 @@
 
 #include "humidity.h"
 
-static int8_t latestHumidity = 0;
+typedef struct humidity{
+	int8_t latestHumidity;
+	}humidity;
 
-void humidity_create(void)
+humidity_t humidity_create(uint8_t portNo)
 {
-	
-	humidityDriver_set();
+	humidity_t newHumidity = calloc(1, sizeof(humidity));
+	newHumidity ->latestHumidity = 0;
+	newHumidity humidity_initiateH();
+	return newHumidity;
 }
 
-void humidity_measure(void)
+void humidity_measure(humidity_t sensor_h)
 {
-	latestHumidity = humidityDriver_getHumidity();
+	sensor_h ->latestHumidity = humidity_getHumidity();
 }
 
-uint8_t humidity_getHumidity(void)
+uint8_t humidity_getHumidity(humidity_t h_sensor)
 {
-	return latestHumidity;
+  return h_sensor->latestHumidity;
+}
+
+void humidity_initiateH()
+{
+	srand(time(NULL));
 }

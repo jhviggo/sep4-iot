@@ -6,16 +6,16 @@
  */ 
 
 
-#include <stdio.h>
+#pragma once
 #include <time.h>
-#include <stddef.h>
 #ifndef TEMPERATURE_H_
 #define TEMPERATURE_H_
+#include <stdint.h>
+typedef struct temperature* temperature_t;
 
-void temperatura_create(uint8_t port);
-void temperature_measure(void);
-float temperatura_getT(void);
-
+temperature_t temperature_create(uint8_t portNo);
+void temperarture_meassure(temperature_t sensor1);
+float temperature_getTemperature(temperature_t sensor);
 
 
 #endif /* TEMPERATURE_H_ */

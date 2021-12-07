@@ -1,17 +1,20 @@
-/*
+	/*
  * humidity.h
  *
- * Created: 12/6/2021 1:57:19 PM
+ * Created: 12/7/2021 12:35:32 PM
  *  Author: tolde
  */ 
 
-#pragma once
+
+#ifndef HUMIDITY_H_
 #define HUMIDITY_H_
 
-void humidity_create(void);
-void humidity_measure(void);
-uint8_t humidity_getHumidity(void);
-typedef struct humiditySensor* humiditySensor_t;
+typedef struct humidity* humidity_t;
+
+humidity_t humidity_create(uint8_t portNo);
+void humidity_meassure(humidity_t sensor_h);
+uint8_t humidity_getHumidity(humidity_t h_sensor);
+void humidity_initiateH();
 
 
 

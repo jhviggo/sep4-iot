@@ -15,14 +15,14 @@ typedef struct temperature
 	 float _latestTemp; 
 }temperature;
 
-	
+
 temperature_t temperature_create(void)
 {
 	temperature_t newTemperature = calloc(1, sizeof(temperature));
 	newTemperature ->_latestTemp = 0.0;
 	return newTemperature;
 }
-	
+
 void temperature_meassure(temperature_t sensor1)
 {
 	sensor1 ->_latestTemp;

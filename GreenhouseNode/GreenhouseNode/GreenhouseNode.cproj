@@ -41,14 +41,13 @@
       </framework-data>
     </AsfFrameworkConfig>
     <avrtool>com.atmel.avrdbg.tool.atmelice</avrtool>
-    <avrtoolserialnumber>J42700025372</avrtoolserialnumber>
+    <avrtoolserialnumber>J42700024557</avrtoolserialnumber>
     <avrdeviceexpectedsignature>0x1E9801</avrdeviceexpectedsignature>
     <com_atmel_avrdbg_tool_simulator>
       <ToolOptions>
         <InterfaceProperties>
         </InterfaceProperties>
-        <InterfaceName>
-        </InterfaceName>
+        <InterfaceName>JTAG</InterfaceName>
       </ToolOptions>
       <ToolType>com.atmel.avrdbg.tool.simulator</ToolType>
       <ToolNumber>
@@ -59,15 +58,15 @@
     <com_atmel_avrdbg_tool_atmelice>
       <ToolOptions>
         <InterfaceProperties>
-          <JtagDbgClock>1341543</JtagDbgClock>
+          <JtagDbgClock>1355808</JtagDbgClock>
         </InterfaceProperties>
         <InterfaceName>JTAG</InterfaceName>
       </ToolOptions>
       <ToolType>com.atmel.avrdbg.tool.atmelice</ToolType>
-      <ToolNumber>J42700025372</ToolNumber>
+      <ToolNumber>J42700024557</ToolNumber>
       <ToolName>Atmel-ICE</ToolName>
     </com_atmel_avrdbg_tool_atmelice>
-    <avrtoolinterfaceclock>1341543</avrtoolinterfaceclock>
+    <avrtoolinterfaceclock>1355808</avrtoolinterfaceclock>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -165,18 +164,22 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="application.h">
+    <Compile Include="controllers\co2.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="controllers\humidity.c">
+    <Compile Include="controllers\co2.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="controllers\humidity.h">
+    <Compile Include="controllers\co2.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="controllers\temperature.c">
+    <Compile Include="controllers\co2.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="controllers\temperature.h">
+    <Compile Include="controllers\light.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="controllers\light.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="driver\display_7seg.h">
@@ -320,6 +323,18 @@
     <Compile Include="lib\stdio_driver.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="handlers\Co2Handler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="handlers\Co2Handler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="handlers\LightHandler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="handlers\LightHandler.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="LoraWAN.c">
       <SubType>compile</SubType>
     </Compile>
@@ -337,6 +352,7 @@
     <Folder Include="FreeRTOS\FreeRTOSTraceDriver\" />
     <Folder Include="FreeRTOS\src\" />
     <Folder Include="lib\" />
+    <Folder Include="handlers" />
   </ItemGroup>
   <ItemGroup>
     <None Include="driver\DATASHEETS.md">

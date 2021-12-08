@@ -13,9 +13,9 @@
 #include <stdint.h>
 typedef struct temperature* temperature_t;
 
-temperature_t temperature_create(uint8_t portNo);
+temperature_t temperature_create(uint8_t value);
 void temperarture_meassure(temperature_t sensor1);
-float temperature_getTemperature(temperature_t sensor);
+float* temperature_getTemperature(temperature_t self);
 
 
 #endif /* TEMPERATURE_H_ */

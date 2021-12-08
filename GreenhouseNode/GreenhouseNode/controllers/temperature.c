@@ -11,25 +11,20 @@ extern bool temperature_metricsUnit;
 typedef struct temperature
 {
 	 float _latestTemp;
-	 uint8_t port;
+	 
 }temperature;
 
-static float calculateTemp(float voltage)
-{
-	return 15.0 + (voltage * 0.5); //dummy
-};
 	
-	temperature_t temperature_create(uint8_t portNo)
+	temperature_t temperature_create(uint8_t value)
 	{
 		temperature_t newTemperature = calloc(1, sizeof(temperature));
-		newTemperature ->port = portNo;
 		newTemperature ->_latestTemp = 0.0;
 		return newTemperature;
 	}
 	
 void temperature_meassure(temperature_t sensor1)
 {
-	sensor1 ->_latestTemp = calculateTemp();
+	return sensor1 ->_latestTemp;
 }	
 
 float temperature_getTemperature(temperature_t sensor)

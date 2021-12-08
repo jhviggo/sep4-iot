@@ -1,10 +1,6 @@
 #pragma once
 
 #include <stdio.h>
-#include <avr/io.h>
-#include <ATMEGA_FreeRTOS.h>
-#include <task.h>
-#include <semphr.h>
 #include <stdio_driver.h>
 #include <serial.h>
 #include <lora_driver.h>

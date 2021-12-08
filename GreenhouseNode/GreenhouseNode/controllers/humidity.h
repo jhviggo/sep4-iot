@@ -11,7 +11,7 @@
 
 typedef struct humidity* humidity_t;
 
-humidity_t humidity_create(uint8_t value);
+humidity_t humidity_create(void);
 void humidity_meassure(humidity_t sensor_h);
 uint8_t humidity_getHumidity(humidity_t h_sensor);
 

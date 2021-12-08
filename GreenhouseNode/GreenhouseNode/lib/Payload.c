@@ -22,7 +22,7 @@ void upLoad() {
 	uplink_payload.bytes[2] = humidity;
 	uplink_payload.bytes[3] = co2_ppm >> 8;
 	uplink_payload.bytes[4] = co2_ppm & 0x7F;
-	uplink_payload.bytes[4] = window_open >> 7;
+	uplink_payload.bytes[4] = window_open & 7;
 	uplink_payload.bytes[5] = lux >> 16;
 	uplink_payload.bytes[6] = lux >> 8;
 	uplink_payload.bytes[7] = lux & 8;
@@ -46,11 +46,11 @@ void downLoad() {
 	uint8_t humidityLowThreshold = downlinkPayload.bytes[5];
 	
 	int8_t window_open_percentage_act = downlinkPayload.bytes[6];	// window position
-	bool window_open_act = (downlinkPayload.bytes[7] << 0);			// open/close window
+	bool window_open_act = (downlinkPayload.bytes[7] & 0);			// open/close window
 	
 	// (Examples for now)
-	bool light_act = (downlinkPayload.bytes[7] << 1);				// on/off light
-	bool water_act = (downlinkPayload.bytes[7] << 2);				// on/off water	
+	bool light_act = (downlinkPayload.bytes[7] & 1);				// on/off light
+	bool water_act = (downlinkPayload.bytes[7] & 2);				// on/off water	
 			
 	// add more commands to this byte
 	

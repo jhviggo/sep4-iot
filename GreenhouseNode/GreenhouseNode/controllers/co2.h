@@ -4,10 +4,14 @@
  * co2.h
  *
  * Created: 08/12/2021 12.48.20
- *  Author: skrue
- */ 
+ * Author : Michel Sofus Engelhardt Sommer, 273966
+ *
+ */
+
+#include <stdint.h>
 
 /************************************************************************/
+/* Initialize CO2 Sensor, MH-Z19                                        */
 /* Must be called before vTaskStartScheduler() in FreeRTOS              */
 /************************************************************************/
 void co2_sensor_init(uint16_t co2_ppm, uint8_t com_port);

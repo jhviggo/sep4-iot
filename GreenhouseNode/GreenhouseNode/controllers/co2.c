@@ -2,7 +2,8 @@
  * co2.c
  *
  * Created: 08/12/2021 12.48.05
- *  Author: skrue
+ * Author : Michel Sofus Engelhardt Sommer, 273966
+ *
  */ 
 
 #include "co2.h"

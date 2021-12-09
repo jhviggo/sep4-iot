@@ -15,20 +15,20 @@
 #include "TemperatureHandler.h"
 
 EventGroupHandle_t startGroup_task;
-EventBits_t _readyBit;
+EventBits_t measureBit;
 
 typedef struct tempHandler
 {
     uint16_t temperature;
-	uint16_t averageTemp;
-	int countTempMeasurement;
+	temperatureHandler_t tempToDestroy;
+	
 }tempHandler;
 	
 void start_tempTask(void* self);
 	
 void  temperature_handler_initialise(UBaseType_t tempHandler_priority, temperatureHandler_t self)
 {
-	xEventGroupSetBits(startGroup_task, _readyBit);
+	xEventGroupSetBits(startGroup_task, measureBit);
 		
 	xTaskCreate(
 	start_tempTask
@@ -41,28 +41,22 @@ void  temperature_handler_initialise(UBaseType_t tempHandler_priority, temperatu
 	
 void start_tempTask(void* self)
 {
-	TickType_t xLastAwakeTime;
+	TickType_t xLastWorkingTime;
 	const TickType_t xFrequency = pdMS_TO_TICKS(15000UL);
-	xLastAwakeTime = xTaskGetTickCount();
+	xLastWorkingTime = xTaskGetTickCount();
 	const TickType_t xFrequency1 = pdMS_TO_TICKS(100UL);
 		
 	for(;;)
 	{
-		xTaskDelayUntil(&xLastAwakeTime, xFrequency);
+		xTaskDelayUntil(&xLastWorkingTime, xFrequency);
 			
 		if(HIH8120_OK != hih8120_wakeup())
 		{
 			printf("Temperature task FAILED");
 		}
-		xTaskDelayUntil(&xLastAwakeTime, xFrequency1);
+		xTaskDelayUntil(&xLastWorkingTime, xFrequency1);
 		temperature_handler_task((temperatureHandler_t) self);
 	}
-}
-	
-void temperatureHandler_reset_averageTemp(temperatureHandler_t self)
-{
-	self -> countTempMeasurement = 0;
-	self -> averageTemp = 0;
 }
 	
 temperatureHandler_t temperatureHandler_create(UBaseType_t temp_priority_task, EventGroupHandle_t eventBits, EventBits_t bits)
@@ -75,43 +69,44 @@ temperatureHandler_t temperatureHandler_create(UBaseType_t temp_priority_task, E
 	}
 	
 	newReader -> temperature = 0;
-	newReader -> averageTemp = 0;
-	newReader -> countTempMeasurement = 0;
 	
-	_readyBit = bits;
+	measureBit = bits;
 		
 	startGroup_task = eventBits;
 	
 	if(HIH8120_OK == hih8120_initialise())
 	{
-		printf("T sensor initialized");
+		printf("Temperature sensor initialized");
 	}
 	
 	temperature_handler_initialise(temp_priority_task, newReader);
 	return newReader;
 }
-	
-void temperatureHandler_getTempMeasurements(temperatureHandler_t self)
+
+temperatureHandler_t temperatureHandler_destroy(temperatureHandler_t self)
 {
-	self -> temperature = self ->averageTemp / self -> countTempMeasurement;
-	printf("Getting temp measurements from function");
+	if(self == NULL)
+	{
+		return;
+		vTaskDelete(self ->tempToDestroy);
+		vPortFree(self);
+	}
 }
 	
 int16_t temperatureHandler_getTemperature(temperatureHandler_t self)
 {
-	printf("Temperature: %d", self -> temperature);
-	return self -> averageTemp / self -> countTempMeasurement;
+	return self -> temperature;
 }
 	
 void temperature_handler_task(temperatureHandler_t self)
 {
-	EventBits_t ready_bits = xEventGroupWaitBits(startGroup_task,
-	_readyBit,
+	EventBits_t uxBits = xEventGroupWaitBits(startGroup_task,
+	measureBit,
 	pdFALSE,
 	pdTRUE,
 	portMAX_DELAY);
 		
-	if((ready_bits & (_readyBit)) == (_readyBit))
+	if((uxBits & (measureBit)) == (measureBit))
 	{
 		if(HIH8120_OK != hih8120_measure())
 		{
@@ -119,13 +114,9 @@ void temperature_handler_task(temperatureHandler_t self)
 		}
 		else
 		{
-			printf("Temp: %f\n", hih8120_getTemperature());
 				
-			self ->countTempMeasurement;
-			self ->averageTemp += (int16_t)hih8120_getTemperature();
-				
-			printf("AverageTemp: %d\n", self ->averageTemp/ self ->countTempMeasurement);
-			printf("Measurement no: %d", self ->countTempMeasurement);
+			self -> temperature = hih8120_getTemperature();
+			printf("Temperature is: %d", self ->temperature);
 		}
 	}
 }

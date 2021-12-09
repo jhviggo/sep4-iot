@@ -14,20 +14,20 @@
 #include "HumidityHandler.h"
 
 EventGroupHandle_t task_startGroup;
-EventBits_t _readyBit;
+EventBits_t measureBit;
 
 typedef struct humidityHandler
 {
 	uint16_t humidity;
-	uint16_t averageH;
-	int countHumidityMeasurement;
+	humidityHandler_t tempToDestroy;
+	
 }humidityHandler;
 
 void start_humidity_task(void* self);
 
 void humidity_handler_initialise(UBaseType_t humidityHandler_priority, humidityHandler_t self)
 {
-	xEventGroupSetBits(task_startGroup, _readyBit);
+	xEventGroupSetBits(task_startGroup, measureBit);
 	
 	xTaskCreate(
 	start_humidity_task
@@ -41,27 +41,22 @@ void humidity_handler_initialise(UBaseType_t humidityHandler_priority, humidityH
 
 void start_humidity_task(void* self)
 {
-	TickType_t xLastAwakeTime;
+	TickType_t xLastWorkingTime;
 	const TickType_t xFrequency = pdMS_TO_TICKS(15000UL);
-	xLastAwakeTime = xTaskGetTickCount();
+	xLastWorkingTime = xTaskGetTickCount();
 	const TickType_t xFrequency1 = pdMS_TO_TICKS(100UL);
 	
 	for(;;)
 	{
-		xTaskDelayUntil(&xLastAwakeTime, xFrequency);
+		xTaskDelayUntil(&xLastWorkingTime, xFrequency);
+		
 		if(HIH8120_OK != hih8120_wakeup())
 		{
 			printf("Task FAILED");
 		}
-		xTaskDelayUntil(&xLastAwakeTime, xFrequency1);
-		humidity_handler_task((humidityHandler_t) self);
+		xTaskDelayUntil(&xLastWorkingTime, xFrequency1);
+		humidity_handler_task((humidityHandler_t)self);
 	}
-}
-
-void humidityHandler_reset_averageHumidity(humidityHandler_t self)
-{
-	self ->averageH = 0;
-	self ->countHumidityMeasurement = 0;
 }
 
 humidityHandler_t humidityHandler_create(UBaseType_t hum_task_priority, EventGroupHandle_t eventBits, EventBits_t bits)
@@ -74,10 +69,9 @@ humidityHandler_t humidityHandler_create(UBaseType_t hum_task_priority, EventGro
 	}
 	
 	newReader ->humidity = 0;
-	newReader ->countHumidityMeasurement = 0;
-	newReader ->averageH = 0;
 	
-	_readyBit = bits;
+	measureBit = bits;
+	
 	task_startGroup = eventBits;
 	
 	if(HIH8120_OK == hih8120_initialise())
@@ -85,44 +79,45 @@ humidityHandler_t humidityHandler_create(UBaseType_t hum_task_priority, EventGro
 		printf("Humidity sensor is INITIALIZED");
 	}
 	
-	humidity_handler_task(hum_task_priority, newReader);
+	humidity_handler_initialise(hum_task_priority, newReader);
 	
 	return newReader;
 }
 
-void humidityHandler_getHumidityMeasurement(humidityHandler_t self)
+humidityHandler_t humidityHandler_destroy(humidityHandler_t self)
 {
-	self ->humidity = self->averageH / self ->countHumidityMeasurement;
+	if(self == NULL)
+	{
+		return;
+		vTaskDelete(self ->tempToDestroy);
+		vPortFree(self);
+	}
 }
 
 uint16_t humidityHandler_getHumidity(humidityHandler_t self)
 {
-	printf("Humidity: %d", self -> humidity);
-	return self ->averageH / self ->countHumidityMeasurement;
+	return self -> humidity;
 }
 
 void humidity_handler_task(humidityHandler_t self)
 {
-	EventBits_t readyBits = xEventGroupWaitBits(
+	EventBits_t uxBits = xEventGroupWaitBits(
 	task_startGroup,
-	_readyBit,
+	measureBit,
 	pdFALSE,
 	pdTRUE,
 	portMAX_DELAY);
 	
-	if((readyBits & (_readyBit) == (_readyBit)))
+	if((uxBits & (measureBit) == (measureBit)))
 	{
-		printf("Humidity task FAILED");
-	}
-	else
-	{
-		printf("Humidity: %f\n", hih8120_getHumidity());
-		
-		self ->countHumidityMeasurement ++;
-		
-		self ->averageH += (uint16_t)hih8120_getHumidity();
-		
-		printf("Measurement no: %d\n", self ->countHumidityMeasurement);
-		printf("Average humidity: %d\n", self ->averageH / self ->countHumidityMeasurement);
-	}
+		if(HIH8120_OK != hih8120_measure())
+		{
+			printf("Humidity task FAILED");
+		}
+	   else
+	   {
+		self ->humidity = hih8120_getHumidity();
+		printf("Humidity: %f\n", self ->humidity);
+	   }
+   }
 }

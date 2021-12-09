@@ -12,9 +12,12 @@
 
 typedef struct lightSensor
 {
-	uint16_t lux;
-	int lightMeasurementCount;
-	uint16_t averageLight;
+	union // save allocated memory 
+	{
+		uint16_t lux;
+		int lightMeasurementCount;
+		uint16_t averageLight;
+	};
 
 }lightSensor;
 

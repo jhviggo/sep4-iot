@@ -11,6 +11,9 @@
 
 uint16_t co2_ppm_pointer;
 
+// https://ihavn.github.io/IoT_Semester_project/mh_z19_driver_quick_start.html
+// https://ihavn.github.io/IoT_Semester_project/group__mh__z19__driver.html
+
 void co2_sensor_init(uint16_t co2_ppm, uint8_t com_port)
 {
 	mh_z19_initialise(serial_comPort_t, com_port);

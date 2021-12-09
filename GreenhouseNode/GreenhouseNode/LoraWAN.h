@@ -13,6 +13,7 @@
 #define LORA_MAX_BUFFER_SIZE 20
 
 void loraWAN_init(void);
+void loraWAN_connect_task(void* pvParameters);
 void loraWAN_send_task(void *pvParameter);
-void loraWAN_downLink();
+void loraWAN_recieve_task(void* pvParameters);
 void loraWAN_setPayload(uint8_t port, uint8_t lendth, uint8_t data[LORA_MAX_BUFFER_SIZE]);

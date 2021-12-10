@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <hih8120.h>
+#include <twi.h>
 
 #include "temperature.h"
 

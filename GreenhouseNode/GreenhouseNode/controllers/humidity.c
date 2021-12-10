@@ -30,6 +30,16 @@ humidity_t humidity_create(void)
 		printf("\nHIH8120_TEMP_SENSOR_ERROR: %t\n", returnCode);
 		free(newHumidity);
 		return NULL;		// catch this
+		
+	/*	
+		// where method is called from
+	
+		if ( humidity_create() == NULL)
+		{
+			printf("\nHIH8120_TEMP_SENSOR_ERROR: Sensor not initialized\n");
+		}
+	*/
+		
 	}
 	
 }

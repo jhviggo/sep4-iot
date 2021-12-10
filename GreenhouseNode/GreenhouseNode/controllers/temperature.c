@@ -36,24 +36,35 @@ temperature_t temperature_create(void)
 	
 temperature_t temperature_meassure(temperature_t sensor)
 {
-	hih8120_driverReturnCode_t returnCode;
-	returnCode = hih8120_wakeup()
-	
-	if ( returnCode == HIH8120_OK )
-	{
-		// Something went wrong
-		// Investigate the return code further
 		
-		int16_t temperature = (int16_t) hih8120_getTemperature_x10();
-		sensor->_latestTemp = temperature;
-	} 
+	hih8120_driverReturnCode_t returnCodeWait = hih8120_initialise();
+		
+	if( returnCodeWait == HIH8120_OK )
+	{
+		vTaskDelay(50);
+			
+		hih8120_driverReturnCode_t returnCode;
+		returnCode = hih8120_wakeup()
+	
+		if ( returnCode == HIH8120_OK )
+		{
+			// Something went wrong
+			// Investigate the return code further
+		
+			int16_t temperature = (int16_t) hih8120_getTemperature_x10();
+			sensor->_latestTemp = temperature;
+		}
+		else
+		{
+			printf("\nHIH8120_HUM_SENSOR_READING_ERROR: %t\n", returnCode);
+		}
+
+	}
 	else
 	{
-		printf("\nHIH8120_TEMP_SENSOR_READING_ERROR: %t\n", returnCode);
+		printf("\nHIH8120_HUM_SENSOR_READING_WAKEUP_ERROR: %t\n", returnCodeWait);
 	}
 
 	return sensor;
-	
-}	
 
-
+}

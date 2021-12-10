@@ -37,6 +37,10 @@ humidity_t humidity_create(void)
 		if ( humidity_create() == NULL)
 		{
 			printf("\nHIH8120_TEMP_SENSOR_ERROR: Sensor not initialized\n");
+		} 
+		else
+		{
+			humidity_t humiditySensor = humidity_create();
 		}
 	*/
 		

@@ -49,8 +49,6 @@ humidity_t humidity_measure(humidity_t sensor)
 						
 		if ( returnCode == HIH8120_OK )
 		{
-			// Something went wrong
-			// Investigate the return code further
 				
 			int16_t humidity = (int16_t) hih8120_getHumidityPercent_x10();
 			sensor->latestHumidity = humidity;

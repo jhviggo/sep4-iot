@@ -49,8 +49,6 @@ temperature_t temperature_meassure(temperature_t sensor)
 	
 		if ( returnCode == HIH8120_OK )
 		{
-			// Something went wrong
-			// Investigate the return code further
 		
 			int16_t temperature = (int16_t) hih8120_getTemperature_x10();
 			sensor->_latestTemp = temperature;

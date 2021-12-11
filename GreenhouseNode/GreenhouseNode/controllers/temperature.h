@@ -6,11 +6,15 @@
  */ 
 #pragma once
 
-
 #include <time.h>
 #include <stdint.h>
-typedef struct temperature* temperature_t;
+
+typedef struct temperature
+{
+	int16_t _latestTemp;
+} temperature;
+
+typedef struct temperature* temperature_t;		// Why a struct, containing only one variable
 
 temperature_t temperature_create(void);
-void temperarture_meassure(temperature_t sensor1);
-float temperature_getTemperature(temperature_t self);
+temperature_t temperarture_meassure(temperature_t sensor);

@@ -59,7 +59,6 @@ void _setTestSensorData(void* pvParameters) {
 	// sample data 00 1D 4A 19 D0 92 23
 	// temp=29, hum=74, co2=826, lum=9352
 	while (1) {
-		printf("Updating sensor payload\n");
 		uint8_t data[7] = {0, 29, 74, 25, 208, 146, 35};
 		loraWAN_setPayload(4, 7, data);
 		xTaskDelayUntil( &xLastWakeTime, xFrequency );

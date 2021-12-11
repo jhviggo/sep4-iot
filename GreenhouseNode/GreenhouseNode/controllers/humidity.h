@@ -5,16 +5,18 @@
  *  Author: tolde
  */ 
 
-
 #ifndef HUMIDITY_H_
 #define HUMIDITY_H_
 
-typedef struct humidity* humidity_t;
+#include <stdint.h>
+
+typedef struct humidity{
+	int8_t latestHumidity;
+} humidity;
+
+typedef struct humidity* humidity_t;		// Why a struct, containing only one variable
 
 humidity_t humidity_create(void);
-void humidity_meassure(humidity_t sensor_h);
-uint8_t humidity_getHumidity(humidity_t h_sensor);
-
-
+humidity_t humidity_meassure(humidity_t sensor);
 
 #endif /* HUMIDITY_H_ */

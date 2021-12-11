@@ -331,16 +331,28 @@
     <Compile Include="lib\stdio_driver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="links\HumidityHandler.c">
+    <Compile Include="handlers\Co2Handler.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="links\HumidityHandler.h">
+    <Compile Include="handlers\Co2Handler.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="links\TemperatureHandler.c">
+    <Compile Include="handlers\HumidityHandler.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="links\TemperatureHandler.h">
+    <Compile Include="handlers\HumidityHandler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="handlers\LightHandler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="handlers\LightHandler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="handlers\TemperatureHandler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="handlers\TemperatureHandler.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="LoraWAN.c">
@@ -360,7 +372,7 @@
     <Folder Include="FreeRTOS\FreeRTOSTraceDriver\" />
     <Folder Include="FreeRTOS\src\" />
     <Folder Include="lib\" />
-    <Folder Include="links\" />
+    <Folder Include="handlers" />
   </ItemGroup>
   <ItemGroup>
     <None Include="driver\DATASHEETS.md">

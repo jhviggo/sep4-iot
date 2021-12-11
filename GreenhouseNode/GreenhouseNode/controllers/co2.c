@@ -6,30 +6,33 @@
  *
  */ 
 
+#include <stddef.h>
 #include "co2.h"
 #include <mh_z19.h>
 
-uint16_t co2_ppm_pointer;
+uint16_t ppm;
 
 // https://ihavn.github.io/IoT_Semester_project/mh_z19_driver_quick_start.html
 // https://ihavn.github.io/IoT_Semester_project/group__mh__z19__driver.html
 
-void co2_sensor_init(uint16_t co2_ppm, uint8_t com_port)
+void co2CallBack(uint16_t ppmCall);
+
+void co2_sensor_init()
 {
-	mh_z19_initialise(serial_comPort_t, com_port);
+	mh_z19_initialise(ser_USART3);
+	mh_z19_injectCallBack(co2CallBack);
 }
 
-
-void co2_injectCallBack(uint16_t co2_ppm) {
-	co2_ppm_pointer = co2_ppm;
+void co2CallBack(uint16_t ppmCall)
+{
+	ppm = ppmCall;
 }
-
 
 void co2_measure()
 {
-	mh_z19_returnCode_t returnCode;
+	mh_z19_returnCode_t returnCode = mh_z19_takeMeassuring();
 	
-	if (returnCode = mh_z19_takeMeassuring() != MHZ19_OK)
+	if (returnCode != MHZ19_OK)
 	{
 		printf("CO_SENSOR_ERROR: %d\n", returnCode);
 		vTaskDelay(10);
@@ -39,5 +42,5 @@ void co2_measure()
 
 uint16_t co2_get_value()
 {
-	return co2_ppm_pointer;
+	return ppm;
 }

@@ -33,17 +33,41 @@ lightSensor_t light_sensor_init();
 
 
 /************************************************************************/
-/* Preform measuring of light level, returning a struct:                */
+/* Preform measuring of light level                                     */
 /* uint32_t lux;														*/
 /* uint16_t visibleRaw;													*/
 /* uint16_t infraredRaw;												*/
 /* uint16_t fullSpectrum;												*/
 /* uint16_t combinedData;												*/
 /************************************************************************/
-lightSensor_t light_measure(lightSensor_t self);
+void light_measure(lightSensor_t self);
 
 
 /************************************************************************/
-/* Destroy Memory allocated toTSL2591 light sensor                      */
+/* Destroy Memory allocated to TSL2591 light sensor                     */
 /************************************************************************/
 void light_destroy(lightSensor_t self);
+
+
+/************************************************************************/
+/* Return latest Lux value                                              */
+/************************************************************************/
+uint32_t getLux( lightSensor_t self);
+
+
+/************************************************************************/
+/* Return latest Visible Light                                          */
+/************************************************************************/
+uint16_t getVisibleRaw(lightSensor_t self);
+
+
+/************************************************************************/
+/* Return latest Infrared Raw Light                                     */
+/************************************************************************/
+uint16_t getInfraredRaw( lightSensor_t self);
+
+
+/************************************************************************/
+/* Return latest Full Spectrum Light                                    */
+/************************************************************************/
+uint16_t getFullSpectrum( lightSensor_t self);

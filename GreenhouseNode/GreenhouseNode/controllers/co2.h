@@ -10,20 +10,12 @@
 
 #include <stdint.h>
 
+
 /************************************************************************/
 /* Initialize CO2 Sensor, MH-Z19                                        */
 /* Must be called before vTaskStartScheduler() in FreeRTOS              */
 /************************************************************************/
-void co2_sensor_init(uint16_t co2_ppm, uint8_t com_port);
-
-
-/************************************************************************/
-/* Injects a call-back function that will be                            */
-/* called each time a new CO2 value is ready.                           */
-/* The call-back function is called from an                             */
-/* Interrupt Service Routine (ISR)                                      */
-/************************************************************************/
-void co2_injectCallBack(uint16_t co2_ppm);
+void co2_sensor_init();
 
 
 /************************************************************************/

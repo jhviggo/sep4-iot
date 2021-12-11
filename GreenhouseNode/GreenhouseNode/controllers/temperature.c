@@ -45,7 +45,7 @@ temperature_t temperature_meassure(temperature_t sensor)
 		vTaskDelay(50);
 			
 		hih8120_driverReturnCode_t returnCode;
-		returnCode = hih8120_wakeup()
+		returnCode = hih8120_wakeup();
 	
 		if ( returnCode == HIH8120_OK )
 		{

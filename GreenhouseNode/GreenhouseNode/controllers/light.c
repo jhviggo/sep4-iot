@@ -16,7 +16,7 @@
 // https://ihavn.github.io/IoT_Semester_project/tsl2591_driver_quick_start.html
 // https://ihavn.github.io/IoT_Semester_project/group__tsl2591__driver.html
 
-lightSensor_t light_sensor_init()
+lightSensor_t lightSensor_init()
 {
 	lightSensor_t newSensor = calloc(1, sizeof(lightSensor));
 		
@@ -47,7 +47,7 @@ lightSensor_t light_sensor_init()
 
 }
 
-void light_measure( lightSensor_t self)
+void lightMeasure( lightSensor_t self)
 {
 	tsl2591_returnCode_t returnCode = tsl2591_fetchData();		// return self
 
@@ -62,7 +62,7 @@ void light_measure( lightSensor_t self)
 
 }
 
-void light_destroy( lightSensor_t self )
+void lightDestroy( lightSensor_t self )
 {
 	
 	tsl2591_returnCode_t returnCode = tsl2591_destroy();

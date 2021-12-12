@@ -58,17 +58,6 @@ void co2_initialize_task(UBaseType_t co2_task_priority, co2Handler_t self)
 }
 
 
-void co2Handler_destroy(co2Handler_t self)
-{
-	if(self == NULL)
-	{
-		return;
-	//	vTaskDelete(self->handleTask);
-		vPortFree(self);
-	}
-}
-
-
 void start_co2_task(void* self)
 {
 		EventBits_t readyBits = xEventGroupWaitBits(task_eventGroup,
@@ -78,6 +67,8 @@ void start_co2_task(void* self)
 		portMAX_DELAY);
 
 		if ((readyBits & (_readyBit)) == (_readyBit)) {
+		
+		// CO2 Task
 		
 		co2Handler_measure(self);
 
@@ -102,5 +93,22 @@ void co2Handler_measure(co2Handler_t self) {
 		self->co2_ppm = co2_getLevel();
 
 		xEventGroupSetBits(task_eventGroup, _readyBit);
+	}
+}
+
+
+uint16_t co2Handler_getCO2ppm(co2Handler_t self)
+{
+	return self->co2_ppm;	
+}
+
+
+void co2Handler_destroy(co2Handler_t self)
+{
+	if(self == NULL)
+	{
+		return;
+
+		vPortFree(self);
 	}
 }

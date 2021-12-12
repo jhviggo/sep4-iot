@@ -29,7 +29,7 @@ typedef struct lightSensor* lightSensor_t;
 /* Initialize light Sensor, TSL2591                                     */
 /* Must be called before vTaskStartScheduler() in FreeRTOS              */
 /************************************************************************/
-lightSensor_t light_sensor_init();
+lightSensor_t lightSensor_init();
 
 
 /************************************************************************/
@@ -40,13 +40,13 @@ lightSensor_t light_sensor_init();
 /* uint16_t fullSpectrum;												*/
 /* uint16_t combinedData;												*/
 /************************************************************************/
-void light_measure(lightSensor_t self);
+void lightMeasure(lightSensor_t self);
 
 
 /************************************************************************/
 /* Destroy Memory allocated to TSL2591 light sensor                     */
 /************************************************************************/
-void light_destroy(lightSensor_t self);
+void lightDestroy(lightSensor_t self);
 
 
 /************************************************************************/

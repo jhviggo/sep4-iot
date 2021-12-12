@@ -71,7 +71,7 @@ humidityHandler_t humidityHandler_create(UBaseType_t hum_task_priority, EventGro
 	
 	if ( humidity_create() == NULL)
 	{
-		printf("\nHIH8120_TEMP_SENSOR_ERROR: Sensor not initialized\n");
+		printf("\nHIH8120_HUM_SENSOR_ERROR: Sensor not initialized\n");
 	}
 	else
 	{

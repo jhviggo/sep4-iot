@@ -69,6 +69,16 @@ temperatureHandler_t temperatureHandler_create(UBaseType_t temp_priority_task, E
 		
 	startGroup_task = eventBits;
 	
+	if ( temperature_create() == NULL)
+	{
+		printf("\nHIH8120_TEMP_SENSOR_ERROR: Sensor not initialized\n");
+	}
+	else
+	{
+		temperature_t temperatureSensor = temperature_create();
+	}
+	
+	
 	if(HIH8120_OK == hih8120_initialise())
 	{
 		printf("Temperature sensor initialized");

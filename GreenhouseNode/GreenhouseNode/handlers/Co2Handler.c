@@ -21,6 +21,7 @@ static EventBits_t _readyBit;
 
 void start_co2_task(void* self);
 
+
 co2Handler_t co2Handler_create(UBaseType_t co2_task_priority, EventGroupHandle_t eventBits, EventBits_t bits)
 {
 	co2Handler_t newSensor = calloc(1, sizeof(co2Handler));
@@ -42,6 +43,7 @@ co2Handler_t co2Handler_create(UBaseType_t co2_task_priority, EventGroupHandle_t
 	return newSensor;
 }
 
+
 void co2_initialize_task(UBaseType_t co2_task_priority, co2Handler_t self)
 {
 	xEventGroupSetBits(task_eventGroup, _readyBit);
@@ -54,6 +56,7 @@ void co2_initialize_task(UBaseType_t co2_task_priority, co2Handler_t self)
 	, co2_task_priority
 	, NULL);
 }
+
 
 void co2Handler_destroy(co2Handler_t self)
 {

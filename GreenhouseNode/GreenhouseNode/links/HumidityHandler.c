@@ -12,16 +12,11 @@
 #include <task.h>
 #include "event_groups.h"
 #include "HumidityHandler.h"
+#include "humidity.h"
 
 EventGroupHandle_t task_startGroup;
 EventBits_t measureBit;
 
-typedef struct humidityHandler
-{
-	uint16_t humidity;
-	humidityHandler_t tempToDestroy;
-	
-}humidityHandler;
 
 void start_humidity_task(void* self);
 
@@ -74,6 +69,15 @@ humidityHandler_t humidityHandler_create(UBaseType_t hum_task_priority, EventGro
 	
 	task_startGroup = eventBits;
 	
+	if ( humidity_create() == NULL)
+	{
+		printf("\nHIH8120_TEMP_SENSOR_ERROR: Sensor not initialized\n");
+	}
+	else
+	{
+		humidity_t humiditySensor = humidity_create();
+	}
+	
 	if(HIH8120_OK == hih8120_initialise())
 	{
 		printf("Humidity sensor is INITIALIZED");
@@ -86,17 +90,12 @@ humidityHandler_t humidityHandler_create(UBaseType_t hum_task_priority, EventGro
 
 humidityHandler_t humidityHandler_destroy(humidityHandler_t self)
 {
-	if(self == NULL)
-	{
-		return;
-		vTaskDelete(self ->tempToDestroy);
-		vPortFree(self);
-	}
+	 humidity_destroy(self);
 }
 
-uint16_t humidityHandler_getHumidity(humidityHandler_t self)
+uint16_t humidityHandler_getHumidity(humidityHandler_t h_sensor)
 {
-	return self -> humidity;
+	humidity_getHumidity(h_sensor);
 }
 
 void humidity_handler_task(humidityHandler_t self)
@@ -114,10 +113,10 @@ void humidity_handler_task(humidityHandler_t self)
 		{
 			printf("Humidity task FAILED");
 		}
-	   else
-	   {
-		self ->humidity = hih8120_getHumidity();
-		printf("Humidity: %f\n", self ->humidity);
-	   }
-   }
+		else
+		{
+			self ->humidity = hih8120_getHumidity();
+			printf("Humidity: %f\n", self ->humidity);
+		}
+	}
 }

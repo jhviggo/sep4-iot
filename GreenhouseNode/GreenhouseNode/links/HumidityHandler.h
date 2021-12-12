@@ -12,6 +12,12 @@
 #include <time.h>
 #include "event_groups.h"
 
+typedef struct humidityHandler
+{
+	uint16_t humidity;
+	
+}humidityHandler;
+
 
 typedef struct humidityHandler* humidityHandler_t;
 

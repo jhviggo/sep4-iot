@@ -6,11 +6,17 @@
  */ 
 #pragma once
 
-
 #include <time.h>
 #include <stdint.h>
-typedef struct temperature* temperature_t;
 
-temperature_t temperature_create(void);
-void temperarture_meassure(temperature_t sensor1);
-float temperature_getTemperature(temperature_t self);
+typedef struct temperature
+{
+	int16_t _latestTemp;
+} temperature;
+
+typedef struct temperature* temperature_t;		
+
+temperature_t temperature_create();
+temperature_t temperarture_meassure(temperature_t sensor);
+uint8_t temperature_getTemperature(temperature_t t_sensor);
+temperature_t temperature_destroy(temperature_t self);

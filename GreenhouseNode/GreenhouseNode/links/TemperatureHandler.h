@@ -13,6 +13,13 @@
 #include <stdlib.h>
 #include "event_groups.h"
 
+
+typedef struct tempHandler
+{
+	uint16_t temperature;
+	
+}tempHandler;
+
 typedef struct tempHandler* temperatureHandler_t;
 
 void start_tempTask(void* self);

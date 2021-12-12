@@ -14,6 +14,7 @@
 /************************************************************************/
 /* Initialize CO2 Sensor, MH-Z19                                        */
 /* Must be called before vTaskStartScheduler() in FreeRTOS              */
+/* standard port => ser_USART3											*/
 /************************************************************************/
 void co2_sensor_init();
 

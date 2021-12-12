@@ -18,7 +18,7 @@
 
 void start_light_task(void* self)
 {
-	
+	light_sensor_init();
 }
 
 
@@ -28,31 +28,31 @@ lightHandler_t lightHandler_create(UBaseType_t light_task_priority, EventGroupHa
 }
 
 
-lightHandler_t lightHandler_destroy(lightHandler_t self)
+void lightHandler_destroy(lightHandler_t self)
 {
-	return NULL;	
+	light_destroy(self);	
 }
 
 
 uint32_t lightHandler_getLux( lightHandler_t self)
 {
-	return 0;	
+	getLux(self);
 }
 
 
 uint16_t lightHandler_getVisibleRaw( lightHandler_t self)
 {
-	return 0;
+	getVisibleRaw(self);
 }
 
 
 uint16_t lightHandler_getInfraredRaw( lightHandler_t self)
 {
-	return 0;
+	getInfraredRaw(self);
 }
 
 
 uint16_t lightHandler_getFullSpectrum( lightHandler_t self)
 {
-	return 0;
+	getFullSpectrum(self);
 }

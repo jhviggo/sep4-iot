@@ -26,7 +26,7 @@ typedef struct lightHandler* lightHandler_t;
 
 void start_light_task(void* self);
 lightHandler_t lightHandler_create(UBaseType_t light_task_priority, EventGroupHandle_t eventBits, EventBits_t bits);
-lightHandler_t lightHandler_destroy(lightHandler_t self);
+void lightHandler_destroy(lightHandler_t self);
 
 uint32_t lightHandler_getLux( lightHandler_t self);
 uint16_t lightHandler_getVisibleRaw( lightHandler_t self);

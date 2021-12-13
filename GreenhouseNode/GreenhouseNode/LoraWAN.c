@@ -1,19 +1,31 @@
+#include <ATMEGA_FreeRTOS.h>
+#include <semphr.h>
+#include <string.h>
+
 #include "LoraWAN.h"
 
+SemaphoreHandle_t xLoRaConnectionSemaphore;
+SemaphoreHandle_t xLoRaSendReceiveSemaphore;
+
 MessageBufferHandle_t downLinkMessageBufferHandle;
-static lora_driver_payload_t _uplink_payload;
+lora_driver_payload_t _uplink_payload;
+lora_driver_payload_t _downlink_payload;
 
 void loraWAN_init(void) {
+	// Sets the connection semaphore
+	xLoRaConnectionSemaphore = xSemaphoreCreateMutex();
+	xLoRaSendReceiveSemaphore = xSemaphoreCreateMutex();
+	
 	// Set output ports for LED
 	DDRA |= _BV(DDA0) | _BV(DDA7);
 	
 	// Create down link buffer
 	downLinkMessageBufferHandle = xMessageBufferCreate(sizeof(lora_driver_payload_t)*2);
+	lora_driver_initialise(ser_USART1, downLinkMessageBufferHandle);
 	
 	// Configure serial at baumerate 57600,8,N,1
 	stdio_initialise(ser_USART0);
 	status_leds_initialise(5);
-	lora_driver_initialise(1, downLinkMessageBufferHandle);
 }
 
 void _loraWAN_connect(void) {
@@ -68,28 +80,55 @@ void _resetLoRaWANTransceiver() {
 	lora_driver_flushBuffers();
 }
 
-void loraWAN_send_task(void* pvParameters) {
-	// Hardware reset of LoRaWAN transceiver
-	_resetLoRaWANTransceiver();
-	// Establish connection to LoRaWAN network
-	_loraWAN_connect();
+void loraWAN_connect_task(void* pvParameters) {
+	if (xSemaphoreTake(xLoRaConnectionSemaphore, 100) == pdTRUE) {
+		xSemaphoreTake(xLoRaSendReceiveSemaphore, 10);
+		_resetLoRaWANTransceiver();
+		_loraWAN_connect();
+		xSemaphoreGive(xLoRaSendReceiveSemaphore);
+		xSemaphoreGive(xLoRaConnectionSemaphore);
+	}
+	// Ensures the task is cleaned up and removed
+	vTaskDelete(NULL);
+}
 
+void loraWAN_send_task(void* pvParameters) {
 	// Setup timeout
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = pdMS_TO_TICKS(LORA_TIMEOUT_5MIN);
 	xLastWakeTime = xTaskGetTickCount();
-	printf("Sending: %d, %d", _uplink_payload.portNo, _uplink_payload.len);
-	
+
 	while(1) {
-		// Blink LED to show message transmission
-		status_leds_shortPuls(led_ST4);
-		printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
-		xTaskDelayUntil( &xLastWakeTime, xFrequency );
+		if (xSemaphoreTake(xLoRaSendReceiveSemaphore, 100) == pdTRUE) {
+			status_leds_shortPuls(led_ST4);
+			printf("Upload Message >%s<\n", lora_driver_mapReturnCodeToText(lora_driver_sendUploadMessage(false, &_uplink_payload)));
+			xSemaphoreGive(xLoRaSendReceiveSemaphore);
+			xTaskDelayUntil( &xLastWakeTime, xFrequency );
+		}
 	}
 }
 
-void loraWAN_downLink() {
-	printf("MISSING IMPLEMENTATION! <loraWAN_downLink>");
+void loraWAN_recieve_task(void* pvParameters) {
+	TickType_t xLastWakeTime;
+	const TickType_t xFrequency = pdMS_TO_TICKS(500UL);
+	xLastWakeTime = xTaskGetTickCount();
+	while (1) {
+		if (xSemaphoreTake(xLoRaSendReceiveSemaphore, 100) == pdTRUE) {
+			xMessageBufferReceive(downLinkMessageBufferHandle, &_downlink_payload, sizeof(lora_driver_payload_t), 2000);
+			/* For debugging purposes only */
+			printf("DOWN LINK: from port: %s with %d bytes received!\n", _downlink_payload.bytes, _downlink_payload.len);
+			for (int i = 0; i < _downlink_payload.len; i++)
+			{
+				if (i > 0) printf(":");
+				printf("%02X", _downlink_payload.bytes[i]);
+			}
+			printf("\n");
+			
+			xSemaphoreGive(xLoRaSendReceiveSemaphore);
+			xTaskDelayUntil( &xLastWakeTime, xFrequency );
+		}
+	}
+	
 }
 
 void loraWAN_setPayload(uint8_t port, uint8_t len, uint8_t data[LORA_MAX_BUFFER_SIZE]) {

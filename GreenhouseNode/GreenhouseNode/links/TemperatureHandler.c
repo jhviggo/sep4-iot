@@ -13,16 +13,11 @@
 #include <hih8120.h>
 #include "event_groups.h"
 #include "TemperatureHandler.h"
+#include "temperature.h"
 
 EventGroupHandle_t startGroup_task;
 EventBits_t measureBit;
 
-typedef struct tempHandler
-{
-    uint16_t temperature;
-	temperatureHandler_t tempToDestroy;
-	
-}tempHandler;
 	
 void start_tempTask(void* self);
 	
@@ -74,6 +69,16 @@ temperatureHandler_t temperatureHandler_create(UBaseType_t temp_priority_task, E
 		
 	startGroup_task = eventBits;
 	
+	if ( temperature_create() == NULL)
+	{
+		printf("\nHIH8120_TEMP_SENSOR_ERROR: Sensor not initialized\n");
+	}
+	else
+	{
+		temperature_t temperatureSensor = temperature_create();
+	}
+	
+	
 	if(HIH8120_OK == hih8120_initialise())
 	{
 		printf("Temperature sensor initialized");
@@ -85,17 +90,12 @@ temperatureHandler_t temperatureHandler_create(UBaseType_t temp_priority_task, E
 
 temperatureHandler_t temperatureHandler_destroy(temperatureHandler_t self)
 {
-	if(self == NULL)
-	{
-		return;
-		vTaskDelete(self ->tempToDestroy);
-		vPortFree(self);
-	}
+	temperature_destroy(self);
 }
 	
 int16_t temperatureHandler_getTemperature(temperatureHandler_t self)
 {
-	return self -> temperature;
+	temperature_getTemperature(self);
 }
 	
 void temperature_handler_task(temperatureHandler_t self)

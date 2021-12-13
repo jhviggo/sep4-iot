@@ -14,7 +14,9 @@ typedef struct temperature
 	int16_t _latestTemp;
 } temperature;
 
-typedef struct temperature* temperature_t;		// Why a struct, containing only one variable
+typedef struct temperature* temperature_t;		
 
-temperature_t temperature_create(void);
-void temperarture_meassure(temperature_t sensor);
+temperature_t temperature_create();
+temperature_t temperarture_meassure(temperature_t sensor);
+uint8_t temperature_getTemperature(temperature_t t_sensor);
+temperature_t temperature_destroy(temperature_t self);

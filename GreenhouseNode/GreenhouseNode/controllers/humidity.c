@@ -36,9 +36,9 @@ humidity_t humidity_create(void)
 	
 }
 
-uint16_t humidityHandler_getHumidity(humidityHandler_t self)
+uint16_t humidity_getHumidity(humidity_t self)
 {
-	return self -> humidity;
+	return self->latestHumidity;
 }
 	
 	
@@ -75,12 +75,12 @@ humidity_t humidity_measure(humidity_t sensor)
 		
 }
 
-humidityHandler_t humidityHandler_destroy(humidityHandler_t self)
+humidity_t humidity_destroy(humidity_t self)
 {
 	if(self == NULL)
 	{
 		return;
-		vTaskDelete(self -> humidity);
+		vTaskDelete(self->humidityToDestroy);
 		vPortFree(self);
 	}
 }

@@ -12,11 +12,12 @@
 typedef struct temperature
 {
 	int16_t _latestTemp;
+	int16_t temperatureToDestroy;
 } temperature;
 
 typedef struct temperature* temperature_t;		
 
 temperature_t temperature_create();
 temperature_t temperarture_meassure(temperature_t sensor);
-uint8_t temperature_getTemperature(temperature_t t_sensor);
+uint16_t temperature_getTemperature(temperature_t t_sensor);
 temperature_t temperature_destroy(temperature_t self);

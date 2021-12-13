@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <hih8120.h>
+#include <stdio.h>
 #include <twi.h>
 
 #include "temperature.h"
@@ -35,9 +36,9 @@ temperature_t temperature_create(void)
 	
 }
 
-uint16_t temperature_getTemperature(temperature_t self)
+uint16_t temperature_getTemperature(temperature_t t_sensor)
 {
-	return self -> temperature;
+	return t_sensor->_latestTemp;
 }
 	
 temperature_t temperature_meassure(temperature_t sensor)
@@ -50,7 +51,7 @@ temperature_t temperature_meassure(temperature_t sensor)
 		vTaskDelay(50);
 			
 		hih8120_driverReturnCode_t returnCode;
-		returnCode = hih8120_wakeup()
+		returnCode = hih8120_wakeup();
 	
 		if ( returnCode == HIH8120_OK )
 		{
@@ -78,7 +79,7 @@ temperature_t temperature_destroy(temperature_t self)
 	if(self == NULL)
 	{
 		return;
-		vTaskDelete(self -> temperature);
+		vTaskDelete(self->temperatureToDestroy);
 		vPortFree(self);
 	}
 }

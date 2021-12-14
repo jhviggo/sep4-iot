@@ -1,2 +1,5 @@
 GreenhouseNode/GreenhouseNode/Debug
 GreenhouseNode/.vs
+GreenhouseNode/gTest/Debug
+GreenhouseNode/gTest/.vs
+GreenhouseNode/gTest/packages/Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1.4/build

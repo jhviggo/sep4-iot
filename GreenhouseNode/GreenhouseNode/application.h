@@ -7,5 +7,5 @@
 
 typedef struct application* application_t;
 
-void application_create();
+application_t application_create(void);
 void application_run(void);

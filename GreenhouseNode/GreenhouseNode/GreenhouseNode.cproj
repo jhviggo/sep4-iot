@@ -164,12 +164,8 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="application.h">
-    <Compile Include="controllers\co2.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="controllers\co2.h">
-      <SubType>compile</SubType>
-    </Compile>
+		<SubType>compile</SubType>
+	</Compile>
     <Compile Include="controllers\co2.c">
       <SubType>compile</SubType>
     </Compile>

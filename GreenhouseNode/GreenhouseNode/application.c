@@ -81,6 +81,4 @@ void application_run(void) {
 
 void application_create() {
 	application_t _app = calloc(1, sizeof(application));
-	_app->sensorHumidity = humidity_create();
-	_app->sensorTemperature = temperature_create();
 }

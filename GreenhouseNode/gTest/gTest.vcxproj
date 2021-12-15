@@ -36,10 +36,14 @@
     <IncludePath>E:\GitHub\sep4-iot\GreenhouseNode\GreenhouseNode\handlers;E:\GitHub\sep4-iot\GreenhouseNode\GreenhouseNode\controllers;E:\GitHub\sep4-iot\GreenhouseNode\GreenhouseNode;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="co2.c" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="co2.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -178,10 +178,22 @@
     <Compile Include="controllers\co2.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="controllers\humidity.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="controllers\humidity.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="controllers\light.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="controllers\light.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="controllers\temperature.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="controllers\temperature.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="driver\display_7seg.h">
@@ -322,6 +334,18 @@
     <Compile Include="FreeRTOS\src\variantHooks.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="handlers\HumidityHandler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="handlers\HumidityHandler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="handlers\TemperatureHandler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="handlers\TemperatureHandler.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="lib\stdio_driver.h">
       <SubType>compile</SubType>
     </Compile>
@@ -349,6 +373,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="controllers\" />
+    <Folder Include="Debug\" />
+    <Folder Include="Debug\" />
+    <Folder Include="Debug\controllers\" />
+    <Folder Include="Debug\controllers\" />
     <Folder Include="driver\" />
     <Folder Include="FreeRTOS\" />
     <Folder Include="FreeRTOS\FreeRTOSTraceDriver\" />
@@ -357,6 +385,12 @@
     <Folder Include="handlers" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Debug\controllers\co2.d">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="Debug\controllers\temperature.o">
+      <SubType>compile</SubType>
+    </None>
     <None Include="driver\DATASHEETS.md">
       <SubType>compile</SubType>
     </None>

@@ -17,39 +17,38 @@
 EventGroupHandle_t startGroup_task;
 EventBits_t measureBit;
 
+
 typedef struct tempHandler
 {
-    uint16_t temperature;
-	temperatureHandler_t tempToDestroy;
-	
+	uint16_t temperature;
 }tempHandler;
-	
+
 void start_tempTask(void* self);
-	
+
 void  temperature_handler_initialise(UBaseType_t tempHandler_priority, temperatureHandler_t self)
 {
 	xEventGroupSetBits(startGroup_task, measureBit);
-		
+
 	xTaskCreate(
 	start_tempTask
 	,"TemperatureTask"
-	, configMINIMAL_STACK_SIZE + 100
+	, configMINIMAL_STACK_SIZE + 10
 	, (void*)self
 	, tempHandler_priority
 	, NULL);
 }
-	
+
 void start_tempTask(void* self)
 {
 	TickType_t xLastWorkingTime;
 	const TickType_t xFrequency = pdMS_TO_TICKS(15000UL);
 	xLastWorkingTime = xTaskGetTickCount();
 	const TickType_t xFrequency1 = pdMS_TO_TICKS(100UL);
-		
+
 	for(;;)
 	{
 		xTaskDelayUntil(&xLastWorkingTime, xFrequency);
-			
+
 		if(HIH8120_OK != hih8120_wakeup())
 		{
 			printf("Temperature task FAILED");
@@ -58,46 +57,51 @@ void start_tempTask(void* self)
 		temperature_handler_task((temperatureHandler_t) self);
 	}
 }
-	
+
 temperatureHandler_t temperatureHandler_create(UBaseType_t temp_priority_task, EventGroupHandle_t eventBits, EventBits_t bits)
 {
 	temperatureHandler_t newReader = calloc(1, sizeof(tempHandler));
-	
+
 	if(newReader == NULL)
 	{
 		return NULL;
 	}
-	
-	newReader -> temperature = 0;
-	
+
+	newReader->temperature = 0;
+
 	measureBit = bits;
-		
+
 	startGroup_task = eventBits;
-	
+
+	if ( temperature_create() == NULL)
+	{
+		printf("\nHIH8120_TEMP_SENSOR_ERROR: Sensor not initialized\n");
+	}
+	else
+	{
+		temperatureHandler_t temperatureSensor = temperature_create();
+	}
+
+
 	if(HIH8120_OK == hih8120_initialise())
 	{
 		printf("Temperature sensor initialized");
 	}
-	
+
 	temperature_handler_initialise(temp_priority_task, newReader);
 	return newReader;
 }
 
 temperatureHandler_t temperatureHandler_destroy(temperatureHandler_t self)
 {
-	if(self == NULL)
-	{
-		return;
-		vTaskDelete(self ->tempToDestroy);
-		vPortFree(self);
-	}
+	temperature_destroy(self);
 }
-	
+
 int16_t temperatureHandler_getTemperature(temperatureHandler_t self)
 {
-	return self -> temperature;
+	temperature_getTemperature(self);
 }
-	
+
 void temperature_handler_task(temperatureHandler_t self)
 {
 	EventBits_t uxBits = xEventGroupWaitBits(startGroup_task,
@@ -105,7 +109,7 @@ void temperature_handler_task(temperatureHandler_t self)
 	pdFALSE,
 	pdTRUE,
 	portMAX_DELAY);
-		
+
 	if((uxBits & (measureBit)) == (measureBit))
 	{
 		if(HIH8120_OK != hih8120_measure())
@@ -114,8 +118,8 @@ void temperature_handler_task(temperatureHandler_t self)
 		}
 		else
 		{
-				
-			self -> temperature = hih8120_getTemperature();
+
+			self->temperature = hih8120_getTemperature();
 			printf("Temperature is: %d", self ->temperature);
 		}
 	}

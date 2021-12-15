@@ -1,8 +1,10 @@
 #include <ATMEGA_FreeRTOS.h>
 #include <semphr.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "LoraWAN.h"
+#include "Configuration.h"
 
 SemaphoreHandle_t xLoRaConnectionSemaphore;
 SemaphoreHandle_t xLoRaSendReceiveSemaphore;
@@ -108,6 +110,20 @@ void loraWAN_send_task(void* pvParameters) {
 	}
 }
 
+void _handleRecievedData(uint8_t port, uint8_t bytes[]) {
+	switch(port) {
+		case 8:
+			configuration_setWindowPosition(bytes[0]);
+			break;
+		case 9:
+			configuration_setWateringState((bool) bytes[0]);
+			break;
+		case 10:
+			configuration_setLightState((bool) bytes[0]);
+			break;
+	}
+}
+
 void loraWAN_recieve_task(void* pvParameters) {
 	TickType_t xLastWakeTime;
 	const TickType_t xFrequency = pdMS_TO_TICKS(500UL);
@@ -123,7 +139,8 @@ void loraWAN_recieve_task(void* pvParameters) {
 				printf("%02X", _downlink_payload.bytes[i]);
 			}
 			printf("\n");
-			
+
+			_handleRecievedData(_downlink_payload.portNo, _downlink_payload.bytes);
 			xSemaphoreGive(xLoRaSendReceiveSemaphore);
 			xTaskDelayUntil( &xLastWakeTime, xFrequency );
 		}

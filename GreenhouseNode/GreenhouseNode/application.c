@@ -14,8 +14,6 @@
 #include "application.h"
 
 typedef struct application{
-	humidity_t sensorHumidity;
-	temperature_t sensorTemperature;
 } application;
 
 #define LoRaWAN_TASK_PRIORITY 6
@@ -79,6 +77,7 @@ void application_run(void) {
 	vTaskStartScheduler();
 }
 
-void application_create() {
+application_t application_create(void) {
 	application_t _app = calloc(1, sizeof(application));
+	return _app;
 }

@@ -8,9 +8,6 @@
 
 DEFINE_FFF_GLOBALS	//	Initialize the framework
 
-/// <summary>
-/// CO2 SENSOR TEST SUITE
-/// </summary>
 
 //	Fake function to take a measuring from the CO2 Sensor
 FAKE_VALUE_FUNC(mh_z19_returnCode_t, mh_z19_takeMeassuring);

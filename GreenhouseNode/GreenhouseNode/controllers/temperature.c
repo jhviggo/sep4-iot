@@ -15,7 +15,7 @@
 
 typedef struct temperature
 {
-	uint16_t _latestTemp;
+	int16_t _latestTemp;
 } temperature;
 
 // https://ihavn.github.io/IoT_Semester_project/group__hih8120__driver__creation.html#ga1cc535a1c62ff6adc53a0de7a1bc6960	

@@ -21,7 +21,6 @@ struct configuration config;
 
 void configuration_setWindowPosition(uint8_t position) {
 	config.windowPosition = position;
-	printf("setting position");
 }
 
 uint8_t configuration_getWindowPosition() {

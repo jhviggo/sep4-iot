@@ -61,3 +61,8 @@ uint16_t lightHandler_getFullSpectrum(lightHandler_t self);
 /* Destroys lightHandler Task                                           */
 /************************************************************************/
 void lightHandler_destroy(lightHandler_t self);
+
+/************************************************************************/
+/* Measures light                                                       */
+/************************************************************************/
+void light_messure( lightHandler_t self );

@@ -9,6 +9,7 @@
 #include <stddef.h>
 #include "co2.h"
 #include <mh_z19.h>
+#include <serial.h>
 
 uint16_t ppm;
 
@@ -35,7 +36,6 @@ void co2_measure()
 	if (returnCode != MHZ19_OK)
 	{
 		printf("CO_SENSOR_ERROR: %d\n", returnCode);
-		vTaskDelay(10);
 	}
 }
 

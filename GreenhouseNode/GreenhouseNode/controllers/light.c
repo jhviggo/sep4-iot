@@ -220,7 +220,7 @@ void callback( tsl2591_returnCode_t returnCode, lightSensor_t self)
 		}
 			else // Something went wrong
 		{
-			printf("\nTSL25911_LIGHT_SENSOR_ERROR: %d\n", returnCode);
+			printf("\nTSL25911_LIGHT_SENSOR_ERROR vis: %d\n", returnCode);
 		}
 			
 				
@@ -246,7 +246,7 @@ void callback( tsl2591_returnCode_t returnCode, lightSensor_t self)
 		}
 			else // Something went wrong
 		{
-			printf("\nTSL25911_LIGHT_SENSOR_ERROR: %d\n", returnCode);
+			printf("\nTSL25911_LIGHT_SENSOR_ERROR full: %d\n", returnCode);
 		}
 
 
@@ -272,7 +272,7 @@ void callback( tsl2591_returnCode_t returnCode, lightSensor_t self)
 		}
 		else // Something went wrong
 		{
-			printf("\nTSL25911_LIGHT_SENSOR_ERROR: %d\n", returnCode);
+			printf("\nTSL25911_LIGHT_SENSOR_ERROR infra: %d\n", returnCode);
 		}
 			
 
@@ -298,7 +298,7 @@ void callback( tsl2591_returnCode_t returnCode, lightSensor_t self)
 		}
 		else // Something went wrong
 		{
-			printf("\nTSL25911_LIGHT_SENSOR_ERROR: %d\n", returnCode);
+			printf("\nTSL25911_LIGHT_SENSOR_ERROR lux: %d\n", returnCode);
 		}
 
 	}

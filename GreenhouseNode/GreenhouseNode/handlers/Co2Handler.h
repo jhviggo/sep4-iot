@@ -8,6 +8,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <event_groups.h>
 
 typedef struct co2Handler
 {
@@ -34,3 +35,8 @@ uint16_t co2Handler_getCO2ppm(co2Handler_t self);
 /* Destroys co2Handler Task                                             */
 /************************************************************************/
 void co2Handler_destroy(co2Handler_t self);
+
+/************************************************************************/
+/* Measures co2                                                         */
+/************************************************************************/
+void co2Handler_measure(co2Handler_t self);

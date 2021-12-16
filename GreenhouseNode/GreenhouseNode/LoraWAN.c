@@ -132,7 +132,7 @@ void loraWAN_recieve_task(void* pvParameters) {
 		if (xSemaphoreTake(xLoRaSendReceiveSemaphore, 100) == pdTRUE) {
 			xMessageBufferReceive(downLinkMessageBufferHandle, &_downlink_payload, sizeof(lora_driver_payload_t), 2000);
 			/* For debugging purposes only */
-			printf("DOWN LINK: from port: %s with %d bytes received!\n", _downlink_payload.bytes, _downlink_payload.len);
+			printf("DOWN LINK: from port: %s with %d bytes received!\n", _downlink_payload.portNo, _downlink_payload.len);
 			for (int i = 0; i < _downlink_payload.len; i++)
 			{
 				if (i > 0) printf(":");

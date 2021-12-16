@@ -26,5 +26,6 @@ void close_servo()
 
 void set_servo(uint8_t portNo, uint8_t position)
 {
+	printf("setting window to %d to %d\n", portNo, position);
 	rc_servo_setPosition(portNo, position);
 }

@@ -13,7 +13,9 @@
 
 typedef struct direction* directionHandler_t;
 
-void windowHandler_getStatus(directionHandler_t self);
+directionHandler_t windowHandler_create(UBaseType_t window_task_priority, EventGroupHandle_t eventBits, EventBits_t bits);
+int8_t windowHandler_getStatus(directionHandler_t self);
 void windowHandler_destroy(directionHandler_t self);
+void start_directionTask(void* self);
 
 

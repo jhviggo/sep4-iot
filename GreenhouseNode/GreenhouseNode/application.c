@@ -15,6 +15,7 @@
 #include "handlers/Co2Handler.h"
 #include "handlers/HumidityHandler.h"
 #include "handlers/TemperatureHandler.h"
+#include "handlers/WindowHandler.h"
 
 typedef struct application{
 } application;
@@ -29,6 +30,8 @@ EventBits_t xSensorEventBits;
 co2Handler_t _co2Sensor;
 humidityHandler_t _humiditySensor;
 temperatureHandler_t _temperatureSensor;
+
+directionHandler_t _windowServo;
 
 void _setSensorData(void* pvParameters);
 
@@ -112,6 +115,7 @@ void _setSensorData(void* pvParameters) {
 		data[6] = 0;
 		
 		loraWAN_setPayload(4, 7, data);
+		start_directionTask(_windowServo);
 	}
 }
 
@@ -123,6 +127,7 @@ void application_run(void) {
 	_co2Sensor = co2Handler_create(SENSOR_TASK_PRIORITY, xSensorEventGroup, xSensorEventBits);
 	_humiditySensor = humidityHandler_create(SENSOR_TASK_PRIORITY, xSensorEventGroup, xSensorEventBits);
 	_temperatureSensor = temperatureHandler_create(SENSOR_TASK_PRIORITY, xSensorEventGroup, xSensorEventBits);
+	_windowServo = windowHandler_create(SENSOR_TASK_PRIORITY, xSensorEventGroup, xSensorEventBits);
 	
 	_create_tasks_and_semaphores();
 	vTaskStartScheduler();

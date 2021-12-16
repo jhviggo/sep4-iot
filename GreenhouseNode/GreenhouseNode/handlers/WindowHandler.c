@@ -7,8 +7,10 @@
 #include <ATMEGA_FreeRTOS.h>
 #include <rc_servo.h>
 #include <task.h>
+#include <stdlib.h>
 #include "WindowHandler.h"
 #include "../controllers/WServo.h"
+#include "../Configuration.h"
 
 EventGroupHandle_t startGroup_task;
 EventBits_t dBit;
@@ -31,12 +33,7 @@ directionHandler_t windowHandler_create(UBaseType_t window_task_priority, EventG
 	initialise_servo();
 	
 	dBit = bits;
-	startGroup_task = eventBits;
-	
-	vTaskDelay(400);
-	
-	direction_handler_intiliase(window_task_priority, newWindow);
-	
+	startGroup_task = eventBits;	
 	return newWindow;
 }
 
@@ -60,44 +57,31 @@ void start_directionTask(void* self)
 	pdFALSE,
 	pdTRUE,
 	portMAX_DELAY);
+
+	TickType_t xLastWorkingTime;
+	const TickType_t xFrequency = pdMS_TO_TICKS(15000UL);
+	xLastWorkingTime = xTaskGetTickCount();
+	const TickType_t xFrequency1 = pdMS_TO_TICKS(100UL);
 	
-	for(;;)
+	if((readyBits & (dBit)) == (dBit))
 	{
-			TickType_t xLastWorkingTime;
-			const TickType_t xFrequency = pdMS_TO_TICKS(15000UL);
-			xLastWorkingTime = xTaskGetTickCount();
-			const TickType_t xFrequency1 = pdMS_TO_TICKS(100UL);
-	
-	  if((readyBits & (dBit)) == (dBit))
-	  {
 		xTaskDelayUntil(&xLastWorkingTime, xFrequency);
-		if(1)
-		{
-			open_servo(self);
-		}
-		else if(0)
-		{
-			close_servo(self);
-		}
-		else
-		{
-			printf("Window task has FAILED");
-		}
-	  }
-	  	xTaskDelayUntil(&xLastWorkingTime, xFrequency1);
-	  	//direction_handler_intiliase((directionHandler_t) self);
+		uint8_t position = configuration_getWindowPosition();
+		set_servo(0, position);
 	}
+	xTaskDelayUntil(&xLastWorkingTime, xFrequency1);
+	
 }
 
-void windowHandler_getStatus(directionHandler_t self)
+int8_t windowHandler_getStatus(directionHandler_t self)
 {
-	//return self->direction;
+	return self->direction_servo;
 }
 
 void windowHandler_destroy(directionHandler_t self)
 {
 	if(self == NULL)
 	{
-		vPortFree(self);
+		free(self);
 	}
 }

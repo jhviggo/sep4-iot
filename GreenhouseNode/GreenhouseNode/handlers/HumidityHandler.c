@@ -96,7 +96,7 @@ humidityHandler_t humidityHandler_destroy(humidityHandler_t self)
 	 humidity_destroy(self);
 }
 
-uint16_t humidityHandler_getHumidity(humidityHandler_t h_sensor)
+uint16_t humidityHandler_getHumidity(humidityHandler_t self)
 {
 	humidity_getHumidity(h_sensor);
 }

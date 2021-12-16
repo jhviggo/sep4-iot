@@ -13,5 +13,5 @@ typedef struct temperature* temperature_t;
 
 temperature_t temperature_create();
 temperature_t temperarture_meassure(temperature_t sensor);
-uint16_t temperature_getTemperature(temperature_t t_sensor);
+int16_t temperature_getTemperature(temperature_t t_sensor);
 void temperature_destroy(temperature_t self);

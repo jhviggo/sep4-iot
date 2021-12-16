@@ -39,7 +39,7 @@ temperature_t temperature_create(void)
 	
 }
 
-uint16_t temperature_getTemperature(temperature_t t_sensor)
+int16_t temperature_getTemperature(temperature_t t_sensor)
 {
 	return t_sensor->_latestTemp;
 }

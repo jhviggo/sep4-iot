@@ -19,3 +19,4 @@ void start_tempTask(void* self);
 temperatureHandler_t temperatureHandler_create(UBaseType_t temp_priority_task, EventGroupHandle_t eventBits, EventBits_t bits);
 temperatureHandler_t temperatureHandler_destroy(temperatureHandler_t self);
 int16_t temperatureHandler_getTemperature(temperatureHandler_t self);
+void temperature_handler_task(temperatureHandler_t self);

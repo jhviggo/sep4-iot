@@ -47,13 +47,6 @@ lightHandler_t lightHandler_create(UBaseType_t light_task_priority, EventGroupHa
 
 	_readyBit = bits;
 	task_eventGroup = eventBits;
-
-	vTaskDelay(300);
-		
-	light_messure(newHandler);
-		
-	light_initialize_task(light_task_priority, newHandler);
-	
 	return newHandler;
 }
 

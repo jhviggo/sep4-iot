@@ -10,7 +10,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <task.h>
-#include "event_groups.h"
+#include <stdlib.h>
 
 #include "Co2Handler.h"
 #include "../controllers/co2.h"
@@ -18,9 +18,8 @@
 static EventGroupHandle_t task_eventGroup;
 static EventBits_t _readyBit;
 
-
 void start_co2_task(void* self);
-
+void co2Handler_measure(co2Handler_t self);
 
 co2Handler_t co2Handler_create(UBaseType_t co2_task_priority, EventGroupHandle_t eventBits, EventBits_t bits)
 {
@@ -30,16 +29,9 @@ co2Handler_t co2Handler_create(UBaseType_t co2_task_priority, EventGroupHandle_t
 	}
 
 	co2_sensor_init();
-
 	_readyBit = bits;
 	task_eventGroup = eventBits;
-
-	co2_measure();
-	vTaskDelay(300);
-		
-	newSensor->co2_ppm = co2_getLevel();
-	
-	co2_initialize_task(co2_task_priority, newSensor);
+	newSensor->co2_ppm = 0;
 	return newSensor;
 }
 
@@ -51,7 +43,7 @@ void co2_initialize_task(UBaseType_t co2_task_priority, co2Handler_t self)
 	xTaskCreate(
 	start_co2_task
 	, "co2Task"
-	, configMINIMAL_STACK_SIZE + 100
+	, configMINIMAL_STACK_SIZE
 	, (void*)self
 	, co2_task_priority
 	, NULL);
@@ -60,6 +52,8 @@ void co2_initialize_task(UBaseType_t co2_task_priority, co2Handler_t self)
 
 void start_co2_task(void* self)
 {
+	while (1)
+	{
 		EventBits_t readyBits = xEventGroupWaitBits(task_eventGroup,
 		_readyBit,
 		pdFALSE,
@@ -67,11 +61,9 @@ void start_co2_task(void* self)
 		portMAX_DELAY);
 
 		if ((readyBits & (_readyBit)) == (_readyBit)) {
-		
-		// CO2 Task
-		
-		co2Handler_measure(self);
-
+			// CO2 Task
+			co2Handler_measure((co2Handler_t)self);
+		}
 	}
 }
 
@@ -84,14 +76,10 @@ void co2Handler_measure(co2Handler_t self) {
 	pdTRUE,
 	portMAX_DELAY);
 	
-	if ((readyBits & (_readyBit)) == (_readyBit)) {
-		
+	if ((readyBits & _readyBit) == _readyBit) {
 		co2_measure();
-		
 		vTaskDelay(300);
-		
 		self->co2_ppm = co2_getLevel();
-
 		xEventGroupSetBits(task_eventGroup, _readyBit);
 	}
 }

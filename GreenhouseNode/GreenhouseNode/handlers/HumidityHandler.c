@@ -71,23 +71,10 @@ humidityHandler_t humidityHandler_create(UBaseType_t hum_task_priority, EventGro
 	measureBit = bits;
 
 	task_startGroup = eventBits;
-
-	if ( humidity_create() == NULL)
+	if(HIH8120_OK != hih8120_initialise())
 	{
-		printf("\nHIH8120_HUM_SENSOR_ERROR: Sensor not initialized\n");
-	}
-	else
-	{
-		humidityHandler_t humiditySensor = humidity_create();
-	}
-
-	if(HIH8120_OK == hih8120_initialise())
-	{
-		printf("Humidity sensor is INITIALIZED");
-	}
-
-	humidity_handler_initialise(hum_task_priority, newReader);
-
+		printf("Humidity sensor could not initialize\n");
+	}	
 	return newReader;
 }
 
@@ -109,8 +96,8 @@ void humidity_handler_task(humidityHandler_t self)
 	pdFALSE,
 	pdTRUE,
 	portMAX_DELAY);
-
-	if((uxBits & (measureBit) == (measureBit)))
+	
+	if((uxBits & measureBit) == 0)
 	{
 		if(HIH8120_OK != hih8120_measure())
 		{
@@ -119,7 +106,7 @@ void humidity_handler_task(humidityHandler_t self)
 		else
 		{
 			self->humidity = hih8120_getHumidity();
-			printf("Humidity: %f\n", self ->humidity);
 		}
-	}
+		xEventGroupSetBits(task_startGroup, measureBit);
+   }
 }

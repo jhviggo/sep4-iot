@@ -20,7 +20,7 @@ EventBits_t measureBit;
 
 typedef struct tempHandler
 {
-	uint16_t temperature;
+	int16_t temperature;
 }tempHandler;
 
 void start_tempTask(void* self);

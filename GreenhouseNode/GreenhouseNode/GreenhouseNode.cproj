@@ -196,6 +196,12 @@
     <Compile Include="controllers\temperature.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="controllers\WServo.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="controllers\WServo.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="driver\display_7seg.h">
       <SubType>compile</SubType>
     </Compile>
@@ -344,6 +350,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="handlers\TemperatureHandler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="handlers\WindowHandler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="handlers\WindowHandler.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="lib\stdio_driver.h">

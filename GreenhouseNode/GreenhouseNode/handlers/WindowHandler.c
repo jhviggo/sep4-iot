@@ -30,14 +30,10 @@ directionHandler_t windowHandler_create(UBaseType_t window_task_priority, EventG
 	
 	initialise_servo();
 	
-	newWindow = initialise_servo();
-	
 	dBit = bits;
 	startGroup_task = eventBits;
 	
 	vTaskDelay(400);
-	
-	set_servo(newWindow);
 	
 	direction_handler_intiliase(window_task_priority, newWindow);
 	
@@ -75,11 +71,11 @@ void start_directionTask(void* self)
 	  if((readyBits & (dBit)) == (dBit))
 	  {
 		xTaskDelayUntil(&xLastWorkingTime, xFrequency);
-		if((set_servo()) >= 0 && (set_servo() <= 100))
+		if(1)
 		{
 			open_servo(self);
 		}
-		else if((set_servo()) <= 0 && (set_servo() >= -100))
+		else if(0)
 		{
 			close_servo(self);
 		}
@@ -89,13 +85,13 @@ void start_directionTask(void* self)
 		}
 	  }
 	  	xTaskDelayUntil(&xLastWorkingTime, xFrequency1);
-	  	direction_handler_intiliase((directionHandler_t) self);
+	  	//direction_handler_intiliase((directionHandler_t) self);
 	}
 }
 
 void windowHandler_getStatus(directionHandler_t self)
 {
-	return self->direction;
+	//return self->direction;
 }
 
 void windowHandler_destroy(directionHandler_t self)

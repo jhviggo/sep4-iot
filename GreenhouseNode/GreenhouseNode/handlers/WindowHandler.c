@@ -8,7 +8,7 @@
 #include <rc_servo.h>
 #include <task.h>
 #include "WindowHandler.h"
-#include "controllers/WServo.h"
+#include "../controllers/WServo.h"
 
 EventGroupHandle_t startGroup_task;
 EventBits_t dBit;
@@ -75,11 +75,11 @@ void start_directionTask(void* self)
 	  if((readyBits & (dBit)) == (dBit))
 	  {
 		xTaskDelayUntil(&xLastWorkingTime, xFrequency);
-		if((set_servo()) > = 0 && (set_servo() < = 100))
+		if((set_servo()) >= 0 && (set_servo() <= 100))
 		{
 			open_servo(self);
 		}
-		else if((set_servo()) < = 0 && (set_servo() > = -100))
+		else if((set_servo()) <= 0 && (set_servo() >= -100))
 		{
 			close_servo(self);
 		}

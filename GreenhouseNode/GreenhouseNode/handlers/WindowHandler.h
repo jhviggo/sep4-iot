@@ -17,4 +17,3 @@ void windowHandler_getStatus(directionHandler_t self);
 void windowHandler_destroy(directionHandler_t self);
 
 
-#endif /* WINDOWHANDLER_H_ */

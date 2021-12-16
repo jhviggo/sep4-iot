@@ -1,12 +1,15 @@
 #include "../fff-master/gtest/gtest.h"
 #include "../fff-master/fff.h"
 
+DEFINE_FFF_GLOBALS	//	Initialize the framework
+
+extern "C"
+{
 #include "../GreenhouseNode/driver/mh_z19.h"
 #include "co2.h"
 
 #include <stdbool.h>
-
-DEFINE_FFF_GLOBALS	//	Initialize the framework
+}
 
 
 //	Fake function to take a measuring from the CO2 Sensor
